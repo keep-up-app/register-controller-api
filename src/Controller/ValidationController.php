@@ -19,7 +19,7 @@ class ValidationController extends Exception
     public function make($params)
     {
         if ($params == null) return 'Missing fields.';
-        if (!isset($params['first']) || !isset($params['second']) || !isset($params['email'])) return false;
+        if (!isset($params['first']) || !isset($params['second']) || !isset($params['email'])) return 'Missing fields.';
 
         foreach($params as $key => $value)
         {
