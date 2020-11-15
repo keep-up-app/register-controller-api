@@ -39,7 +39,7 @@ class RegisterController extends AbstractController
             {
                 $jsonData = $this->endpoint->getJsonContent();
                 $resType = 'data';
-                $resContent = json_decode([
+                $resContent = json_encode([
                     'email' => $jsonData['email'],
                     'token' => $jsonData['token'],
                     'steamid' => $jsonData['steamid'],
