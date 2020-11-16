@@ -83,7 +83,8 @@ class ApiController
             
             if ($response->getStatusCode() != 200)
             {
-                $this->errorMessage = $jsonData['error']; 
+                if ($jsonData['error'] == 'User already exists.')  $this->errorMessage = 'Email already taken.'; 
+                else $this->errorMessage = $jsonData['error']; 
             }
             else
             {
