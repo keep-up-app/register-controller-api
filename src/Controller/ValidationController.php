@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use Symfony\Component\HttpClient\Exception\ClientException;
 use App\Controller\Exception\InvalidInputException;
-use Symfony\Component\HttpFoundation\Response;
 
 class ValidationController
 {
