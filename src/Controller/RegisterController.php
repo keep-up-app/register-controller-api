@@ -24,7 +24,15 @@ class RegisterController extends AbstractController
         {
             Validator::make($params);
 
-            $user = User::create($params, true);
+            $userData = [
+                'email' => $params['email'],
+                'password' => [
+                    'first' => $params['password']['first'],
+                    'second' => $params['password']['second']
+                ]
+            ];
+
+            $user = User::create($userData, true);
             unset($user{'password'});
 
             return new Response(

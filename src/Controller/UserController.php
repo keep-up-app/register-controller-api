@@ -21,21 +21,13 @@ class UserController
      * @return UserObject
      */
 
-    public static function create($params, $toJson = true) : Array
+    public static function create(Array $payload = [], $toJson = true) : Array
     {
         try
         {
             $httpClient = HttpClient::create();
 
-            $response = $httpClient->request('POST', 'https://user-api-endpoint.herokuapp.com' . '/user/create', [
-                'json' => [
-                    'email' => $params['email'],
-                    'password' => [
-                        'first' => $params['password']['first'],
-                        'second' => $params['password']['second']
-                    ]
-                ]
-            ]);
+            $response = $httpClient->request('POST', 'https://user-api-endpoint.herokuapp.com' . '/user/create', [ 'json' => $payload ]);
 
             $jsonData = json_decode($response->getContent(false), true);
 
