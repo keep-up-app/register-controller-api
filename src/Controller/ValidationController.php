@@ -3,25 +3,18 @@
 namespace App\Controller;
 
 use Symfony\Component\HttpClient\Exception\ClientException;
+use App\Controller\Exception\InvalidInputException;
 use Symfony\Component\HttpFoundation\Response;
 
-use Exception;
-
-class ValidationController extends Exception
+class ValidationController
 {
-    private $error;
-
-    public function getErrorMessage()
+    public static function make($params)
     {
-        return $this->error;
-    }
+        $params = self::flatten($params);
 
-    public function make($params)
-    {
         if ($params == null || !isset($params['first']) || !isset($params['second']) || !isset($params['email']))
         {
-            $this->error = 'Missing fields.';
-            return false;
+            throw new InvalidInputException('Missing fields.', 400);
         }
 
         foreach($params as $key => $value)
@@ -29,13 +22,31 @@ class ValidationController extends Exception
             if ($value == null || $value == '')
             {
                 if ($key === 'first' || $key === 'second') $key = 'password';
-                $this->error = 'Missing ' . ucfirst($key) . '.';
-                return false;
+                throw new InvalidInputException('Missing ' . ucfirst($key) . '.', 400);
             }
         }
 
         unset($value);
+    }
 
-        return true;
+    private static function flatten($params, $flattened = [])
+    {
+        $keys = array_keys($params);
+
+        for ($i = 0; $i < count($keys); $i++)
+        {
+            $value = $params[$keys[$i]];
+
+            if (is_array($value)) 
+            {
+                return self::flatten($value, $flattened);
+            }
+            else
+            {
+                $flattened[$keys[$i]] = $value;
+            }
+        }
+        
+        return $flattened;
     }
 }
