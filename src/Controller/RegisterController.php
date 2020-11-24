@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Controller\Exception\InvalidInputException;
 use App\Controller\Exception\RequestException;
 use App\Controller\ValidationController as Validator;
+use App\Controller\TwoFactorAuthController as TFAC;
 use App\Controller\UserController as User;
 
 class RegisterController extends AbstractController
@@ -22,17 +23,21 @@ class RegisterController extends AbstractController
 
         try
         {
-            Validator::make($params);
+            Validator::make($params, ['email', 'password' => ['first', 'second'], 'auth' => ['enabled']]);
 
             $userData = [
                 'email' => $params['email'],
                 'password' => [
                     'first' => $params['password']['first'],
                     'second' => $params['password']['second']
+                ],
+                'auth' => [
+                    'enabled' => $params['auth']['enabled'],
+                    'secret' => TFAC::generateSecret(20) 
                 ]
             ];
 
-            $user = User::create($userData, true);
+            $user = User::create($userData);
             unset($user{'password'});
 
             return new Response(
