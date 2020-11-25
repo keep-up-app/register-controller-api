@@ -23,7 +23,7 @@ class RegisterController extends AbstractController
 
         try
         {
-            Validator::make($params, ['email', 'password' => ['first', 'second'], 'auth' => ['enabled']]);
+            Validator::make($params, ['email', 'password' => ['first', 'second']]);
 
             $userData = [
                 'email' => $params['email'],
@@ -32,7 +32,7 @@ class RegisterController extends AbstractController
                     'second' => $params['password']['second']
                 ],
                 'auth' => [
-                    'enabled' => $params['auth']['enabled'],
+                    'enabled' => false,
                     'secret' => TFAC::generateSecret(20) 
                 ]
             ];
