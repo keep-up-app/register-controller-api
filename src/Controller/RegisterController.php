@@ -31,10 +31,6 @@ class RegisterController extends AbstractController
                     'first' => $params['password']['first'],
                     'second' => $params['password']['second']
                 ],
-                'auth' => [
-                    'enabled' => false,
-                    'secret' => ''
-                ]
             ];
 
             $user = User::create($userData);
