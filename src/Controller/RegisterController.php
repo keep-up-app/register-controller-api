@@ -33,7 +33,7 @@ class RegisterController extends AbstractController
                 ],
                 'auth' => [
                     'enabled' => false,
-                    'secret' => TFAC::generateSecret(20) 
+                    'secret' => ''
                 ]
             ];
 
