@@ -30,7 +30,7 @@ class RegisterController extends AbstractController
                 'password' => [
                     'first' => $params['password']['first'],
                     'second' => $params['password']['second']
-                ],
+                ]
             ];
 
             $user = User::create($userData);
