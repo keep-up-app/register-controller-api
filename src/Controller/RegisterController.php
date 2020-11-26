@@ -34,7 +34,8 @@ class RegisterController extends AbstractController
             ];
 
             $user = User::create($userData);
-            unset($user{'password'});
+            unset($user['password']);
+            unset($user['auth']['secret']);
 
             return new Response(
                 json_encode($user),
@@ -42,23 +43,13 @@ class RegisterController extends AbstractController
                 ['content-type' => 'application/json']
             );
         }
-        catch(InvalidInputException $ex)
+        catch(InvalidInputException | RequestException $ex)
         {
             return new Response(
-                json_encode(['error' => $ex->getMessage()]),
-                $ex->getCode(),
-                ['content-type' => 'application/json']
-            );
-        }
-        catch(RequestException $ex)
-        {
-            $errorContent = [
-                'error' => $ex->getMessage(),
-                'details' => $ex->getDetails()
-            ];
-
-            return new Response(
-                json_encode($errorContent),
+                json_encode([
+                    'error' => $ex->getMessage(),
+                    'details' => $ex->getDetails()
+                ]),
                 $ex->getCode(),
                 ['content-type' => 'application/json']
             );

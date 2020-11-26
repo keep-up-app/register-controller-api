@@ -30,7 +30,7 @@ class EndpointRequestController
                 
             $details = isset($jsonData['details']) ? $jsonData['details'] : "No details.";
 
-            throw new RequestException($error, $ex->getCode(), $details, null, $ex);
+            throw new RequestException($error, $response->getStatusCode(), $details, null, $ex);
         }
     }
 }
