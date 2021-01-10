@@ -1,4 +1,4 @@
-# Login Controller Endpoint
+# Register Controller Endpoint
 
 ## Overview
 
